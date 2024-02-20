@@ -18,7 +18,7 @@ dependency "acr-registry" {
     config_path = "../acr-registry"
     skip_outputs = false 
     mock_outputs = {
-        acr_id = "/subscriptions/24d682c1"
+        acr_id = "/subscriptions/235"
     }
 }   
 
