@@ -4,12 +4,17 @@ on:
     branches:
     - main
   pull_request:
-env:
-  tf_working_dir: '.'
 jobs:
   Terragrunt:
     name: 'Terragrunt Plan'
+    env:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      tf_working_dir: '.'
     runs-on: ubuntu-latest
+    environment: prod
     defaults:
       run:
         shell: bash
@@ -20,7 +25,7 @@ jobs:
 
     # Install the latest version of Terragrunt CLI and configure the Terragrunt CLI configuration file with a Terragrunt Cloud user API token
     - name: Setup Terraform 
-      uses: hashicorp/setup-Terraform@v2
+      uses: hashicorp/setup-Terraform@v1
       with:
         terraform_version: 1.7.3
         terraform_wrapper: false
@@ -38,12 +43,8 @@ jobs:
     # Initialize
     - name: Terragrunt Init
       run: terragrunt init --terragrunt-non-interactive
-     
+      
     # Generates an execution plan for Terragrunt
     - name: Terragrunt Plan
       run: terragrunt run-all plan --terragrunt-non-interactive
-      env:
-        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+     
