@@ -1,4 +1,5 @@
-name: 'Terragrunt Plan'
+name: 'Terragrunt'
+
 on:
   push:
     branches:
@@ -11,6 +12,7 @@ jobs:
   Terragrunt:
     name: 'Terragrunt Plan'
     runs-on: ubuntu-latest
+
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
       run:
@@ -38,7 +40,7 @@ jobs:
         sudo chmod +x /bin/terragrunt
         terragrunt -v
 
-    # Initialize a new or existing Terragrunt working directory by creating initial files, loading any remote state, downloading modules, etc.
+    # Initialize
     - name: Terragrunt Init
       run: terragrunt init --terragrunt-non-interactive
       env:
@@ -49,5 +51,3 @@ jobs:
       run: terragrunt run-all plan --terragrunt-non-interactive
       env:
         AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-
-    
