@@ -5,25 +5,14 @@ on:
     - main
   pull_request:
 env:
-    tf_working_dir: '.'
-
+  tf_working_dir: '.'
 jobs:
-  Azure-login:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Log in with Azure
-        uses: azure/login@v1
-        with:
-          creds: '${{ secrets.AZURE_CREDENTIALS }}'
   Terragrunt:
-    name: 'Terragrunt init'
+    name: 'Terragrunt Plan'
     runs-on: ubuntu-latest
-
-    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
       run:
         shell: bash
-
     steps:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
@@ -50,10 +39,16 @@ jobs:
     - name: Terragrunt Init
       run: terragrunt init --terragrunt-non-interactive
       env:
-        AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
 
     # Generates an execution plan for Terragrunt
     - name: Terragrunt Plan
       run: terragrunt run-all plan --terragrunt-non-interactive
       env:
-        AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
