@@ -20,7 +20,7 @@ jobs:
 
     # Install the latest version of Terragrunt CLI and configure the Terragrunt CLI configuration file with a Terragrunt Cloud user API token
     - name: Setup Terraform 
-      uses: hashicorp/setup-Terraform@v1
+      uses: hashicorp/setup-Terraform@v2
       with:
         terraform_version: 1.7.3
         terraform_wrapper: false
@@ -38,12 +38,7 @@ jobs:
     # Initialize
     - name: Terragrunt Init
       run: terragrunt init --terragrunt-non-interactive
-      env:
-        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-
+     
     # Generates an execution plan for Terragrunt
     - name: Terragrunt Plan
       run: terragrunt run-all plan --terragrunt-non-interactive
