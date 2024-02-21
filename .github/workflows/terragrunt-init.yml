@@ -1,5 +1,4 @@
 name: 'Terragrunt Init'
-
 on:
   push:
     branches:
@@ -7,21 +6,17 @@ on:
   pull_request:
 env:
     tf_working_dir: '.'
-
 jobs:
   Terragrunt:
-    name: 'Terragrunt init'
+    name: 'Terragrunt Init'
     runs-on: ubuntu-latest
-
-    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
       run:
         shell: bash
-
     steps:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     # Install the latest version of Terragrunt CLI and configure the Terragrunt CLI configuration file with a Terragrunt Cloud user API token
     - name: Setup Terraform 
@@ -44,4 +39,9 @@ jobs:
     - name: Terragrunt Init
       run: terragrunt init --terragrunt-non-interactive
       env:
-        AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+
+    
