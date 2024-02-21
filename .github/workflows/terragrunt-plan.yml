@@ -39,10 +39,6 @@ jobs:
         sudo wget -q -O /bin/terragrunt "https://github.com/gruntwork-io/terragrunt/releases/download/v0.55.4/terragrunt_linux_amd64"
         sudo chmod +x /bin/terragrunt
         terragrunt -v
-
-    # Initialize
-    - name: Terragrunt Init
-      run: terragrunt init --terragrunt-non-interactive
       
     # Generates an execution plan for Terragrunt
     - name: Terragrunt Plan
