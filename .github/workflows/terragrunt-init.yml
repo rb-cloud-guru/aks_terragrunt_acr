@@ -1,4 +1,4 @@
-name: 'Terragrunt git'
+name: 'Terragrunt Init'
 on:
   push:
     branches:
