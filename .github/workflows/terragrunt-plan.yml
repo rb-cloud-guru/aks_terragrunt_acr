@@ -1,4 +1,4 @@
-name: 'Terragrunt Init'
+name: 'Terragrunt Plan'
 on:
   push:
     branches:
