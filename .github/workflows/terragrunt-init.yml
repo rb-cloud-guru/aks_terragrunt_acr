@@ -1,16 +1,16 @@
-name: 'Terragrunt'
-
+name: 'Terragrunt git'
 on:
   push:
     branches:
     - main
   pull_request:
+env:
+    tf_working_dir: '.'
 
 jobs:
   Terragrunt:
     name: 'Terragrunt'
     runs-on: ubuntu-latest
-
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
       run:
@@ -44,15 +44,4 @@ jobs:
       env:
         AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
 
-    # Generates an execution plan for Terragrunt
-    - name: Terragrunt Plan
-      run: terragrunt run-all plan --terragrunt-non-interactive
-      env:
-        AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-
-      # On push to main, build or change infrastructure according to Terragrunt configuration files
-      # Note: It is recommended to set up a required "strict" status check in your repository for "Terragrunt Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
-    - name: Terragrunt Apply
-      run: terragrunt run-all apply --terragrunt-non-interactive
-      env:
-        AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+    
