@@ -6,6 +6,7 @@ on:
   pull_request:
 env:
     tf_working_dir: '.'
+    
 jobs:
   Terragrunt:
     name: 'Terragrunt Init'
@@ -38,4 +39,12 @@ jobs:
     # Initialize
     - name: Terragrunt Init
       run: terragrunt init --terragrunt-non-interactive
+
+    # Format
+    - name: Terragrunt Format
+      run: terragrunt fmt --terragrunt-non-interactive
+
+    # Validate
+    - name : Terragrunt Validate
+      run: terragrunt validate --terragrunt-non-interactive
          
