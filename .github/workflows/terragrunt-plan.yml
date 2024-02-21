@@ -1,5 +1,4 @@
 name: 'Terragrunt Plan'
-
 on:
   push:
     branches:
@@ -9,8 +8,15 @@ env:
     tf_working_dir: '.'
 
 jobs:
+  Azure-login:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log in with Azure
+        uses: azure/login@v1
+        with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
   Terragrunt:
-    name: 'Terragrunt Plan'
+    name: 'Terragrunt init'
     runs-on: ubuntu-latest
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
@@ -21,7 +27,7 @@ jobs:
     steps:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     # Install the latest version of Terragrunt CLI and configure the Terragrunt CLI configuration file with a Terragrunt Cloud user API token
     - name: Setup Terraform 
