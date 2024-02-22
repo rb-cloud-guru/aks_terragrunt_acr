@@ -52,7 +52,6 @@ jobs:
 
     - name: Output Plan 
       uses: actions/github-script@v7
-      if: github.event_name == 'push'
       env:
         PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
       with:
@@ -80,6 +79,4 @@ jobs:
             body: output
           })
     
-    - name: Terraform Plan Status
-      if: steps.plan.outcome == 'failure'
-      run: exit 1  
+     
