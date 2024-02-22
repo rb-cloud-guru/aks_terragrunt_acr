@@ -48,6 +48,7 @@ jobs:
       
     # Generates an execution plan for Terragrunt
     - name: Terragrunt Plan
+      if: github.event_name == 'push'
       run: terragrunt run-all plan --terragrunt-non-interactive -no-color -input=false
 
     - name: Output Plan 
