@@ -4,7 +4,7 @@ remote_state {
     config = {
         resource_group_name = "tfstorage"
         storage_account_name = "terraformrocks"
-        container_name = "tfstatedev"
+        container_name = "tfstate"
         key = "${path_relative_to_include()}/terraform.tfstate"
     }
 }
