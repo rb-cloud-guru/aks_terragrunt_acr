@@ -48,34 +48,4 @@ jobs:
       
     # Generates an execution plan for Terragrunt
     - name: Terragrunt Plan
-      if: github.event_name == 'pull_request'
-      run: terragrunt run-all plan --terragrunt-non-interactive
-
-    - name: Add Plan Comment
-      id: comment
-      uses: actions/github-script@v7
-      if: github.event_name == 'pull_request'
-      env:
-        PLAN: "terragrunt\n${{ steps.plan.outputs.stdout }}"
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          const output = `#### Terragrunt Initialization ⚙️\`${{ steps.init.outcome }}\`
-          #### Terragrunt Plan 📖\`${{ steps.plan.outcome }}\`
-      
-          Show Plan
-          
-          \`\`\`${process.env.PLAN}\`\`\`
-          
-           *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Workflow: \`${{ github.workflow }}\`*`;
-            
-          github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: output
-          })
-
-      
-
-      
+      run: terragrunt run-all plan --terragrunt-non-interactive -no-color -input=false
