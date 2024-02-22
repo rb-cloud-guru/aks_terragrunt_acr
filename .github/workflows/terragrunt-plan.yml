@@ -8,10 +8,6 @@ jobs:
   Terragrunt:
     name: 'Terragrunt Plan'
     env:
-      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
       tf_working_dir: '.'
     runs-on: ubuntu-latest
     environment: prod
@@ -19,6 +15,12 @@ jobs:
       run:
         shell: bash
     steps:
+    # Login to Azure
+    - name: 'Log into Azure using github secret AZURE_CREDENTIALS'
+      uses: Azure/login@v1
+      with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+         
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v4
@@ -41,6 +43,7 @@ jobs:
         sudo wget -q -O /bin/terragrunt "https://github.com/gruntwork-io/terragrunt/releases/download/v0.55.4/terragrunt_linux_amd64"
         sudo chmod +x /bin/terragrunt
         terragrunt -v
+        
     # Initialize Terragrunt
     - name: Terragrunt Init
       run: terragrunt init --terragrunt-non-interactive
