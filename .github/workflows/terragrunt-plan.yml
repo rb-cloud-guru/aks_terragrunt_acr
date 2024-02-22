@@ -43,4 +43,19 @@ jobs:
     # Generates an execution plan for Terragrunt
     - name: Terragrunt Plan
       run: terragrunt run-all plan --terragrunt-non-interactive
+
+    - name: Add Plan Comment
+      id: comment
+      uses: actions/github-script@v6
+      env:
+        PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const output = `#### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+          #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+      
+          Show Plan
+          
+          \`\`\`${process.env.PLAN}\`\`\`
      
