@@ -48,7 +48,6 @@ jobs:
       
     # Generates an execution plan for Terragrunt
     - name: Terragrunt Plan
-      if: github.event_name == 'push'
       run: terragrunt run-all plan --terragrunt-non-interactive -no-color -input=false
 
     - name: Output Plan 
@@ -74,7 +73,7 @@ jobs:
 
           *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
 
-          github.rest.issues.createComment({
+          await.github.rest.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
